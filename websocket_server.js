@@ -31,10 +31,25 @@ io.on('connection', (socket) => {
         updateWebStatus(data.sessionId, 'Connected');
     });
 
-    socket.on('handshake', (data) => {
-        console.log('Handshake received:', data);
-        updateWebStatus(data.sessionId, 'Handshake initiated');
-        socket.emit('handshake_response', { message: 'Handshake successful!' });
+    socket.on('proof_generation_start', (data) => {
+        console.log('Proof generation started:', data);
+        updateWebStatus(data.sessionId, 'Proof generation started');
+        const session = sessions.get(data.sessionId);
+        if (session && session.web) {
+            session.web.emit('proof_generation_start');
+        }
+    });
+
+    socket.on('proof_generated', (data) => {
+        console.log('Proof generated:', data);
+        updateWebStatus(data.sessionId, 'Proof generated');
+        const session = sessions.get(data.sessionId);
+        if (session && session.web) {
+            session.web.emit('proof_generated', { proof: data.proof });
+        }
+        // Here you would typically verify the proof
+        // For this example, we'll just send back a success message
+        socket.emit('proof_verification_result', { success: true });
     });
 
     socket.on('disconnect', () => {
