@@ -34,7 +34,7 @@ io.on('connection', (socket) => {
 
     socket.on('proof_generated', (data) => {
         console.log('Proof generated:', data);
-        updateWebStatus(data.sessionId, 'Proof Generated');
+        updateWebStatus(data.sessionId, 'Proof Generated', data);
         // Here you would typically verify the proof
         // For this example, we'll just send back a success message
         //socket.emit('proof_verification_result', { success: true });
@@ -53,10 +53,10 @@ io.on('connection', (socket) => {
     });
 });
 
-function updateWebStatus(sessionId, status) {
+function updateWebStatus(sessionId, status, proof = null) {
     const session = sessions.get(sessionId);
     if (session && session.web) {
-        session.web.emit('mobile_status', { status });
+        session.web.emit('mobile_status', { status, proof });
     }
 }
 
