@@ -24,6 +24,12 @@ io.on('connection', (socket) => {
         console.log('Client disconnected');
     });
 });
+app.get('/ping', (req, res) => {
+    console.log('Ping request received');
+    res.json({ message: 'Pong!' });
+});
+
+
 
 const PORT = 3200;
 server.listen(PORT, () => console.log(`WebSocket server running on port ${PORT}`));
