@@ -37,7 +37,8 @@ io.on('connection', (socket) => {
         updateWebStatus(data.sessionId, 'Proof Generated');
         // Here you would typically verify the proof
         // For this example, we'll just send back a success message
-        socket.emit('proof_verification_result', { success: true });
+        //socket.emit('proof_verification_result', { success: true });
+        socket.emit('proof_generated', data);
     });
 
     socket.on('disconnect', () => {
