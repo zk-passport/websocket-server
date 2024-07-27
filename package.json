@@ -1,0 +1,19 @@
+{
+  "name": "websocket-server",
+  "scripts": {
+    "start": "pm2 start websocket_server.js --name websocket-server  --log-date-format 'YYYY-MM-DD HH:mm Z'",
+    "stop": "pm2 stop websocket-server",
+    "restart": "pm2 restart websocket-server",
+    "logs": "pm2 logs websocket-server"
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/zk-passport/websocket-server",
+  "author": "turnoffthiscomputer <colin.remi07@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2",
+    "http": "^0.0.1-security",
+    "socket.io": "^4.7.5"
+  }
+}
