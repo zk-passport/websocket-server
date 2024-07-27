@@ -11,6 +11,10 @@ const io = new Server(server, {
     }
 });
 
+// Add a base path for the API
+const apiRouter = express.Router();
+app.use('/websocket', apiRouter);
+
 io.on('connection', (socket) => {
     console.log('New client connected');
 
@@ -24,12 +28,12 @@ io.on('connection', (socket) => {
         console.log('Client disconnected');
     });
 });
-app.get('/ping', (req, res) => {
+
+// Move the ping route to use the apiRouter
+apiRouter.get('/ping', (req, res) => {
     console.log('Ping request received');
     res.json({ message: 'Pong!' });
 });
-
-
 
 const PORT = 3200;
 server.listen(PORT, () => console.log(`WebSocket server running on port ${PORT}`));
