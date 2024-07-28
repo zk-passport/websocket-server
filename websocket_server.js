@@ -24,27 +24,21 @@ io.on('connection', (socket) => {
     sessions.get(sessionId)[clientType] = socket;
 
     if (clientType === 'mobile') {
-        updateWebStatus(sessionId, 'Mobile Connected');
+        updateWebStatus(sessionId, 'mobile_connected');
     }
 
     socket.on('proof_generation_start', (data) => {
-        console.log('Proof generation started:', data);
-        updateWebStatus(data.sessionId, 'Proof Generation Started');
+        updateWebStatus(data.sessionId, 'proof_generation_started');
     });
 
     socket.on('proof_generated', (data) => {
-        console.log('Proof generated:', data);
-        updateWebStatus(data.sessionId, 'Proof Generated', data.proof ? data.proof : null);
-        // Here you would typically verify the proof
-        // For this example, we'll just send back a success message
-        //socket.emit('proof_verification_result', { success: true });
+        updateWebStatus(data.sessionId, 'proof_generated', data.proof ? data.proof : null);
         socket.emit('proof_generated', data);
     });
 
     socket.on('disconnect', () => {
-        console.log(`Client disconnected: ${clientType}`);
         if (clientType === 'mobile') {
-            updateWebStatus(sessionId, 'Mobile Disconnected');
+            updateWebStatus(sessionId, 'mobile_disconnected');
         }
         sessions.get(sessionId)[clientType] = null;
         if (!sessions.get(sessionId).web && !sessions.get(sessionId).mobile) {
