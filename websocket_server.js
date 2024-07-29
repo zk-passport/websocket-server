@@ -36,6 +36,10 @@ io.on('connection', (socket) => {
         socket.emit('proof_generated', data);
     });
 
+    socket.on('proof_verified', (data) => {
+        updateMobileStatus(data.sessionId, data.proofVerified);
+    });
+
     socket.on('disconnect', () => {
         if (clientType === 'mobile') {
             updateWebStatus(sessionId, 'mobile_disconnected');
@@ -51,6 +55,13 @@ function updateWebStatus(sessionId, status, proof = null) {
     const session = sessions.get(sessionId);
     if (session && session.web) {
         session.web.emit('mobile_status', { status, proof });
+    }
+}
+
+function updateMobileStatus(sessionId, verificationResult) {
+    const session = sessions.get(sessionId);
+    if (session && session.mobile) {
+        session.mobile.emit('proof_verification_result', verificationResult);
     }
 }
 
