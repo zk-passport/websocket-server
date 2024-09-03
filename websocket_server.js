@@ -31,6 +31,10 @@ io.on('connection', (socket) => {
         updateWebStatus(data.sessionId, 'proof_generation_started');
     });
 
+    socket.on('proof_generation_failed', (data) => {
+        updateWebStatus(data.sessionId, 'proof_generation_failed');
+    });
+
     socket.on('proof_generated', (data) => {
         updateWebStatus(data.sessionId, 'proof_generated', data.proof ? data.proof : null);
         socket.emit('proof_generated', data);
