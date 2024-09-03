@@ -7,7 +7,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
     path: '/websocket',
     cors: {
-        origin: "*", // Be more specific in production
+        origin: "*",
         methods: ["GET", "POST"]
     }
 });
